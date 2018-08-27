@@ -25,10 +25,13 @@ func (mr *MethodRepository) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}, false)
 		return
 	}
+	// add headers to base context
+	c := r.Context()
+	cont := context.WithValue(c, "headers", r.Header)
 
 	resp := make([]*Response, len(rs))
 	for i := range rs {
-		resp[i] = mr.InvokeMethod(r.Context(), rs[i])
+		resp[i] = mr.InvokeMethod(cont, rs[i])
 	}
 
 	if err := SendResponse(w, resp, batch); err != nil {
