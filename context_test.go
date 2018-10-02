@@ -50,3 +50,25 @@ func TestResponseWriter(t *testing.T) {
 	})
 	require.Equal(t, w, pick)
 }
+
+
+func TestCookies(t *testing.T) {
+
+	c := context.Background()
+	cookie := &http.Cookie{
+		Name:"test",
+	}
+
+	getter := func(name string) (*http.Cookie, error){
+		if name == "test" {
+			return cookie, nil
+		}
+		return nil, http.ErrNoCookie
+	}
+
+	c = SetCookies(c, getter)
+	pick, err := Cookies(c,"test")
+
+	require.NoError(t, err)
+	require.Equal(t, cookie, pick)
+}
