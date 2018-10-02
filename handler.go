@@ -25,13 +25,16 @@ func (mr *MethodRepository) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}, false)
 		return
 	}
-	// add headers to base context
+
 	c := r.Context()
-	cont := context.WithValue(c, "headers", r.Header)
+	// add Headers to base context
+	SetHeaders(c, r.Header)
+	// add ResponseWriter to base context
+	SetResponseWriter(c, w)
 
 	resp := make([]*Response, len(rs))
 	for i := range rs {
-		resp[i] = mr.InvokeMethod(cont, rs[i])
+		resp[i] = mr.InvokeMethod(c, rs[i])
 	}
 
 	if err := SendResponse(w, resp, batch); err != nil {
@@ -47,7 +50,7 @@ func (mr *MethodRepository) InvokeMethod(c context.Context, r *Request) *Respons
 	if res.Error != nil {
 		return res
 	}
-	res.Result, res.Error = h.ServeJSONRPC(WithRequestID(c, r.ID), r.Params)
+	res.Result, res.Error = h.ServeJSONRPC(SetRequestId(c, r.ID), r.Params)
 	if res.Error != nil {
 		res.Result = nil
 	}

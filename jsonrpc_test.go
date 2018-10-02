@@ -6,7 +6,6 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/intel-go/fastjson"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -65,13 +64,13 @@ func TestParseRequest(t *testing.T) {
 }
 
 func TestNewResponse(t *testing.T) {
-	id := fastjson.RawMessage("test")
+	id := "test"
 	r := NewResponse(&Request{
 		Version: "2.0",
-		ID:      &id,
+		ID:      id,
 	})
 	assert.Equal(t, "2.0", r.Version)
-	assert.Equal(t, "test", string(*r.ID))
+	assert.Equal(t, id, r.ID)
 }
 
 func TestSendResponse(t *testing.T) {
@@ -81,9 +80,9 @@ func TestSendResponse(t *testing.T) {
 	require.NoError(t, err)
 	assert.Empty(t, rec.Body.String())
 
-	id := fastjson.RawMessage([]byte(`"test"`))
+	id := "test"
 	r := &Response{
-		ID:      &id,
+		ID:      id,
 		Version: "2.0",
 		Result: struct {
 			Name string `json:"name"`

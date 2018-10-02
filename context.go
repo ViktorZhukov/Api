@@ -3,17 +3,39 @@ package jsonrpc
 import (
 	"context"
 
-	"github.com/intel-go/fastjson"
+	"net/http"
 )
 
-type requestIDKey struct{}
+type requestId struct{}
 
-// RequestID takes request id from context.
-func RequestID(c context.Context) *fastjson.RawMessage {
-	return c.Value(requestIDKey{}).(*fastjson.RawMessage)
+type responseWriter struct{}
+
+type headers struct{}
+
+// RequestId takes request id from context.
+func RequestId(c context.Context) string {
+	return c.Value(requestId{}).(string)
 }
 
-// WithRequestID adds request id to context.
-func WithRequestID(c context.Context, id *fastjson.RawMessage) context.Context {
-	return context.WithValue(c, requestIDKey{}, id)
+// WithRequestId adds request id to context.
+func SetRequestId(c context.Context, id string) context.Context {
+	return context.WithValue(c, requestId{}, id)
+}
+
+func Headers(c context.Context) http.Header  {
+	return c.Value(headers{}).(http.Header)
+}
+
+func SetHeaders(c context.Context, h http.Header) context.Context  {
+	return context.WithValue(c, headers{}, h)
+}
+
+
+
+func ResponseWriter(c context.Context) http.ResponseWriter  {
+	return c.Value(responseWriter{}).(http.ResponseWriter)
+}
+
+func SetResponseWriter(c context.Context, writer http.ResponseWriter) context.Context  {
+	return context.WithValue(c, responseWriter{}, writer)
 }
