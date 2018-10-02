@@ -35,7 +35,7 @@ func (mr *MethodRepository) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	cookieGetter := func(name string) (*http.Cookie, error) {
 		return r.Cookie(name)
 	}
-	c = SetCookies(c, cookieGetter)
+	c = SetCookie(c, cookieGetter)
 
 	resp := make([]*Response, len(rs))
 	for i := range rs {
