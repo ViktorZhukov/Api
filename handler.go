@@ -31,6 +31,8 @@ func (mr *MethodRepository) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	c = SetHeaders(c, r.Header)
 	// add ResponseWriter to base context
 	c = SetResponseWriter(c, w)
+	// add Cookies to base context
+	c = SetCookie(c, r.Cookies())
 
 	resp := make([]*Response, len(rs))
 	for i := range rs {

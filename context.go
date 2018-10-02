@@ -12,6 +12,8 @@ type responseWriter struct{}
 
 type headers struct{}
 
+type cookies struct{}
+
 // RequestId takes request id from context.
 func RequestId(c context.Context) string {
 	return c.Value(requestId{}).(string)
@@ -31,11 +33,18 @@ func SetHeaders(c context.Context, h http.Header) context.Context  {
 }
 
 
-
 func ResponseWriter(c context.Context) http.ResponseWriter  {
 	return c.Value(responseWriter{}).(http.ResponseWriter)
 }
 
 func SetResponseWriter(c context.Context, writer http.ResponseWriter) context.Context  {
 	return context.WithValue(c, responseWriter{}, writer)
+}
+
+func Cookie(c context.Context) []*http.Cookie  {
+	return c.Value(cookies{}).([]*http.Cookie)
+}
+
+func SetCookie(c context.Context, cookie []*http.Cookie) context.Context  {
+	return context.WithValue(c, cookies{}, cookie)
 }
