@@ -28,9 +28,9 @@ func (mr *MethodRepository) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	c := r.Context()
 	// add Headers to base context
-	SetHeaders(c, r.Header)
+	c = SetHeaders(c, r.Header)
 	// add ResponseWriter to base context
-	SetResponseWriter(c, w)
+	c = SetResponseWriter(c, w)
 
 	resp := make([]*Response, len(rs))
 	for i := range rs {
