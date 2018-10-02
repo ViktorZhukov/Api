@@ -41,10 +41,10 @@ func SetResponseWriter(c context.Context, writer http.ResponseWriter) context.Co
 	return context.WithValue(c, responseWriter{}, writer)
 }
 
-func Cookie(c context.Context) []*http.Cookie  {
+func Cookies(c context.Context) []*http.Cookie  {
 	return c.Value(cookies{}).([]*http.Cookie)
 }
 
-func SetCookie(c context.Context, cookie []*http.Cookie) context.Context  {
+func SetCookies(c context.Context, cookie []*http.Cookie) context.Context  {
 	return context.WithValue(c, cookies{}, cookie)
 }
