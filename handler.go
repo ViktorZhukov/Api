@@ -3,7 +3,6 @@ package jsonrpc
 import (
 	"context"
 	"net/http"
-
 	"github.com/intel-go/fastjson"
 )
 
