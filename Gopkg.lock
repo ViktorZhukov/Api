@@ -3,6 +3,12 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/Aarabika/context"
+  packages = ["."]
+  revision = "9aa7953e322117d0e94593bb72399a22c978cd24"
+
+[[projects]]
+  branch = "master"
   name = "github.com/alecthomas/jsonschema"
   packages = ["."]
   revision = "f2c93856175a7dd6abe88c5c3900b67ad054adcc"
@@ -58,6 +64,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "1814f774b1e65843202329673b7e31554edb4f81c8bccf64645efda5cb7e1a6f"
+  inputs-digest = "63fe4fd15c557d3b46f9998c7d6e62a5399c667c76e827f25067f3991e1be413"
   solver-name = "gps-cdcl"
   solver-version = 1
