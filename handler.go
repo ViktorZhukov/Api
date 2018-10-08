@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"github.com/intel-go/fastjson"
+	con "github.com/Aarabika/context"
 )
 
 // Handler links a method of JSON-RPC request.
@@ -54,7 +55,7 @@ func (mr *MethodRepository) InvokeMethod(c context.Context, r *Request) *Respons
 	if res.Error != nil {
 		return res
 	}
-	res.Result, res.Error = h.ServeJSONRPC(SetRequestId(c, r.ID), r.Params)
+	res.Result, res.Error = h.ServeJSONRPC(con.SetRequestId(c, r.ID), r.Params)
 	if res.Error != nil {
 		res.Result = nil
 	}

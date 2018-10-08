@@ -3,10 +3,7 @@ package jsonrpc
 import (
 	"context"
 	"net/http"
-	"github.com/sirupsen/logrus"
 )
-
-type requestId struct{}
 
 type responseWriter struct{}
 
@@ -16,18 +13,6 @@ type cookies struct{}
 
 type сookieGetter func(name string) (*http.Cookie, error)
 
-type log struct{}
-
-// RequestId takes request id from context.
-func RequestId(c context.Context) string {
-	return c.Value(requestId{}).(string)
-}
-
-// WithRequestId adds request id to context.
-func SetRequestId(c context.Context, id string) context.Context {
-	return context.WithValue(c, requestId{}, id)
-}
-
 func Headers(c context.Context) http.Header  {
 	return c.Value(headers{}).(http.Header)
 }
@@ -35,7 +20,6 @@ func Headers(c context.Context) http.Header  {
 func SetHeaders(c context.Context, h http.Header) context.Context  {
 	return context.WithValue(c, headers{}, h)
 }
-
 
 func ResponseWriter(c context.Context) http.ResponseWriter  {
 	return c.Value(responseWriter{}).(http.ResponseWriter)
@@ -51,12 +35,4 @@ func Cookie(c context.Context, name string) (*http.Cookie, error)  {
 
 func SetCookie(c context.Context, cookie сookieGetter) context.Context  {
 	return context.WithValue(c, cookies{}, cookie)
-}
-
-func Log(c context.Context) *logrus.Entry  {
-	return c.Value(log{}).(*logrus.Entry)
-}
-
-func SetLog(c context.Context, l *logrus.Entry) context.Context  {
-	return context.WithValue(c, log{}, l)
 }
